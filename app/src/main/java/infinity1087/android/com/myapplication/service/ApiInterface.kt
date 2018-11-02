@@ -21,7 +21,7 @@ interface ApiInterface {
     companion object {
         internal val MOVIE_DB_URL = "http://api.themoviedb.org/3/"
         internal val API_KEY = "api_key"
-        val api_key = ""
+        val api_key = "Paste your Api key here"
         fun create(): ApiInterface {
             val retrofit = Retrofit.Builder()
                 .baseUrl(MOVIE_DB_URL)

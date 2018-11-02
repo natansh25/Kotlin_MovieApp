@@ -1,16 +1,20 @@
-package infinity1087.android.com.myapplication
+package infinity1087.android.com.myapplication.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.KeyEvent
+import infinity1087.android.com.myapplication.R
+import infinity1087.android.com.myapplication.adapter.RecyclerAdapter
 import infinity1087.android.com.myapplication.model.ModieData
 import infinity1087.android.com.myapplication.model.Result
-import infinity1087.android.com.myapplication.service.ApiClient
 import infinity1087.android.com.myapplication.service.ApiInterface
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.function.Supplier
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,8 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val layoutManager = GridLayoutManager(applicationContext,2)
 
-        //val apiService:ApiInterface = ApiClient.getClient().create(ApiInterface.class)
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.isNestedScrollingEnabled=false
 
 
         val apiServices = ApiInterface.create()
@@ -30,7 +37,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<ModieData>, response: Response<ModieData>) {
-                Log.d("xxx",response.raw().request().url().toString())
+                Log.d("xxx", response.raw().request().url().toString())
+                val result:List<Result> = response.body()!!.results
+                val adapter = RecyclerAdapter(applicationContext, result)
+                recyclerView.adapter = adapter
             }
         })
 

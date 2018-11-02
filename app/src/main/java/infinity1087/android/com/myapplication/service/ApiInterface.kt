@@ -15,13 +15,13 @@ interface ApiInterface {
     fun getMovies(@Path("filter") filter: String, @Query("api_key") apiKey: String): Call<ModieData>
 
     @GET("movie/popular")
-     fun getPopularMovies(@Query("api_key") apiKey: String): Call<ModieData>
+    fun getPopularMovies(@Query("api_key") apiKey: String): Call<ModieData>
 
 
     companion object {
         internal val MOVIE_DB_URL = "http://api.themoviedb.org/3/"
         internal val API_KEY = "api_key"
-        val api_key = "053130b8fdf68ca19c58155b4bd37bdd"
+        val api_key = ""
         fun create(): ApiInterface {
             val retrofit = Retrofit.Builder()
                 .baseUrl(MOVIE_DB_URL)
@@ -30,7 +30,6 @@ interface ApiInterface {
             return retrofit.create(ApiInterface::class.java)
         }
     }
-
 
 
 }

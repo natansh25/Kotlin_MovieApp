@@ -1,6 +1,7 @@
 package infinity1087.android.com.myapplication.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.squareup.picasso.Picasso
+import infinity1087.android.com.myapplication.activity.DetailActivity
 import infinity1087.android.com.myapplication.R
 import infinity1087.android.com.myapplication.model.Result
 import kotlinx.android.synthetic.main.item_list.view.*
@@ -40,9 +42,16 @@ class RecyclerAdapter(val contex: Context, val movies: List<Result>) :
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+
+
         init {
             itemView.setOnClickListener {
-                Toast.makeText(contex, "clicked", Toast.LENGTH_SHORT).show()
+                val position = adapterPosition
+                val result: Result = movies.get(position)
+
+                val intent = Intent(contex, DetailActivity::class.java)
+                intent.putExtra("data", result)
+                contex.startActivity(intent)
             }
         }
 
@@ -50,7 +59,6 @@ class RecyclerAdapter(val contex: Context, val movies: List<Result>) :
             Log.d("image path", path)
             Picasso.get().load("https://image.tmdb.org/t/p/w500" + path).error(R.drawable.ic_launcher_background)
                 .placeholder(R.drawable.ic_launcher_foreground).into(itemView.imageView)
-            //itemView.textView.text = path
         }
 
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import infinity1087.android.com.myapplication.R
+import infinity1087.android.com.myapplication.R.id.recyclerView
 import infinity1087.android.com.myapplication.adapter.RecyclerAdapter
 import infinity1087.android.com.myapplication.model.ModieData
 import infinity1087.android.com.myapplication.model.Result
@@ -18,17 +19,19 @@ import java.util.function.Supplier
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layoutManager = GridLayoutManager(applicationContext,2)
+        wireUpRecyclerView()
+
+        retro()
 
 
-        recyclerView.layoutManager = layoutManager
-        recyclerView.isNestedScrollingEnabled=false
+    }
 
-
+    private fun retro() {
         val apiServices = ApiInterface.create()
         val call = apiServices.getPopularMovies(ApiInterface.api_key)
 
@@ -38,11 +41,22 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<ModieData>, response: Response<ModieData>) {
                 Log.d("xxx", response.raw().request().url().toString())
-                val result:List<Result> = response.body()!!.results
+                val result: List<Result> = response.body()!!.results
                 val adapter = RecyclerAdapter(applicationContext, result)
                 recyclerView.adapter = adapter
             }
         })
-
     }
+
+    private fun wireUpRecyclerView() {
+
+
+        val layoutManager = GridLayoutManager(applicationContext, 2)
+
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.isNestedScrollingEnabled = false
+    }
+
+
 }
